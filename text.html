@@ -1,37 +1,3 @@
-<?php 
-include_once "scramblerf.php";
-$task = 'encode';
-if(isset($_GET['task']) && $_GET['task'] != '' ){
-    $task = $_GET['task'];
-}
-$original_key = 'abcdefghijklmnopqrstuvwxyz1234567890';
-$key = 'abcdefghijklmnopqrstuvwxyz1234567890';
-if ( 'key' == $task ) {
-	$key_original = str_split( $key );
-	shuffle( $key_original );
-	$key = join( '', $key_original );
-}else if(isset($_POST['key']) && $_POST['key']!=''){
-    $key = $_POST['key'];
-}
-
-
-$scrambledData = '';
-if('encode' == $task){
-    $data = $_POST['data']??'';
-    if($data != ''){
-        $scrambledData = scrambleData($data, $key);
-    }
-}
-
-if('decode' == $task){
-	$data = $_POST['data']??'';
-	if($data != ''){
-		$scrambledData = decodeData($data, $key);
-	}
-}
-
-?>
-
 <html lang="en">
 
 <head>
@@ -54,29 +20,29 @@ if('decode' == $task){
         <div class="alert alert-primary d-flex justify-content-center" role="alert">
 
             <div>
-                <a href="scrambler.php?task=encode" class=".text-success">Encode</a> |
-                <a href="scrambler.php?task=decode" class="text-danger">Decode</a> |
-                <a href="scrambler.php?task=key" class=".text-warning">Generate Key</a>
+                <button type="button" class="btn btn-success">Encode</button>
+                <button type="button" class="btn btn-warning">Decode</button>
+                <button type="button" class="btn btn-info">Generate Key</button>
             </div>
 
         </div>
 
 
-        <form class="border border-danger p-4" method="POST"  action="scrambler.php<?php if('decode'== $task) { echo "?task=decode"; } ?>">
+        <form class="border border-danger p-4">
             <div class="form-group">
                 <label for="key">Key</label>
-                <input type="text" class="form-control" name="key" id="key" <?php displayKey($key)?> >
+                <input type="text" class="form-control" name="key" id="key">
             </div>
 
 
             <div class="form-group">
                 <label for="data">Data</label>
-                <textarea class="form-control" name="data" id="data" rows="3"><?php if(isset($_POST['data'])) { echo $_POST['data']; } ?></textarea>
+                <textarea class="form-control" name="data" id="data" rows="3"></textarea>
             </div>
 
-            <div class="form-group"> 
-                <label for="data">Result</label>
-                <textarea class="form-control" name="result" id="result" rows="3"><?php echo $scrambledData; ?></textarea>
+            <div class="form-group">
+                <label for="result">Result</label>
+                <textarea class="form-control" name="data" id="result" rows="3"></textarea>
             </div>
 
 
